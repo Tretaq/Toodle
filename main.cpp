@@ -16,8 +16,11 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            float dt = clock.restart().asSeconds();
-            box.move({speed * dt, 0.f});
+        }
+        float dt = clock.restart().asSeconds();
+        box.move({speed * dt, 0.f});
+        if (box.getPosition().x > 480) {
+            box.setPosition({-40.f,380.f});
         }
         window.clear(sf::Color(30,30,40));
         window.draw(box);
