@@ -14,6 +14,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SFML)
 
-add_executable(Toodle src/main.cpp)
+add_executable(Toodle main.cpp)
 
 target_link_libraries(Toodle PRIVATE SFML::Graphics SFML::Audio)
