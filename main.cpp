@@ -1,10 +1,12 @@
 #include <SFML/Graphics.hpp>
+#include "Player.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({480,800}), "Toodle");
     window.setFramerateLimit(60);
 
     sf::Clock clock;
+    Player Player({220.f,400.f});
 
     sf::RectangleShape box{{40.f, 40.f}};
     box.setFillColor(sf::Color::Green);

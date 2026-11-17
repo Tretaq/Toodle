@@ -32,11 +32,16 @@ void Player::update(float dt) {
     }
 }
 
-void Player::draw(sf::RenderTarget& target) const
-{
+void Player::draw(sf::RenderTarget& target) const{
     target.draw(shape_);
 }
 
 void Player::bounce(){
     velocityY_ = -kJumpSpeed;
+}
+sf::FloatRect Player::getBounds() const{
+    return shape_.getGlobalBounds();
+}
+float Player::getVelocityY() const{
+    return velocityY_;
 }
