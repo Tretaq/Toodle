@@ -6,12 +6,8 @@ int main() {
     window.setFramerateLimit(60);
 
     sf::Clock clock;
-    Player Player({220.f,400.f});
-
-    sf::RectangleShape box{{40.f, 40.f}};
-    box.setFillColor(sf::Color::Green);
-    box.setPosition({0.f, 380.f});
-    const float speed = 200.f;
+    Player player({220.f,400.f});
+    const float floorY = 800.f;
 
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -19,13 +15,14 @@ int main() {
                 window.close();
             }
         }
-        float dt = clock.restart().asSeconds();
-        box.move({speed * dt, 0.f});
-        if (box.getPosition().x > 480) {
-            box.setPosition({-40.f,380.f});
+        float dt = std::min(clock.restart().asSeconds(), 0.05f);
+        player.update(dt);
+        const sf::FloatRect b = player.getBounds();
+        if (player.getVelocityY() > 0.f && b.position.y + b.size.y >= floorY) {
+            player.bounce();
         }
         window.clear(sf::Color(30,30,40));
-        window.draw(box);
+        player.draw(window);
         window.display();
     }
     return 0;
