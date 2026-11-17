@@ -10,6 +10,7 @@ public:
      void bounce();
      sf::FloatRect getBounds() const;
      float getVelocityY() const;
+    bool isLandingOn(const sf::FloatRect& platform) const;
 private:
      sf::RectangleShape shape_;
      float velocityY_ = 0.f;

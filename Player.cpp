@@ -12,6 +12,10 @@ Player::Player(sf::Vector2f startPos) : shape_({40.f, 40.f}) {
     shape_.setPosition(startPos);
 }
 
+bool Player::isLandingOn(const sf::FloatRect &platform) const {
+
+}
+
 void Player::update(float dt) {
     float dir = 0.f;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
