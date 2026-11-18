@@ -17,6 +17,7 @@ FetchContent_MakeAvailable(SFML)
 add_executable(Toodle main.cpp
         Player.hpp
         Player.cpp
+        Platform.hpp
         Platform.cpp)
 
 target_link_libraries(Toodle PRIVATE SFML::Graphics SFML::Audio)

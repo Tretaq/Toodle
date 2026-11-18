@@ -14,4 +14,5 @@ public:
 private:
      sf::RectangleShape shape_;
      float velocityY_ = 0.f;
+    float prevBottom_ = 0.f;
 };

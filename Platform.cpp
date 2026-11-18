@@ -1,13 +1,16 @@
-#pragma once
-#include <SFML/Graphics.hpp>
+#include "Platform.hpp"
 
-class Platform {
-public:
-    Platform(sf::Vector2f position, sf::Vector2f size);
-
-    void draw(sf::RenderTarget& target) const;
-    sf::FloatRect getBounds() const;
-
-private:
-    sf::RectangleShape shape_;
-};
+Platform::Platform(sf::Vector2f position, sf::Vector2f size)
+{
+    shape_.setPosition(position);
+    shape_.setSize(size);
+    shape_.setFillColor(sf::Color::Cyan);
+}
+void Platform::draw(sf::RenderTarget& target) const
+{
+    target.draw(shape_);
+}
+sf::FloatRect Platform::getBounds() const
+{
+    return shape_.getGlobalBounds();
+}

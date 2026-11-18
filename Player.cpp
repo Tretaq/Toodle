@@ -13,11 +13,21 @@ Player::Player(sf::Vector2f startPos) : shape_({40.f, 40.f}) {
 }
 
 bool Player::isLandingOn(const sf::FloatRect &platform) const {
+    sf::FloatRect player = shape_.getGlobalBounds();
+    float currFeet = player.position.y + player.size.y;
+    float platformTop = platform.position.y;
+    if (player.position.y + player.size.y > platformTop)
+    {
 
+    } else if (player.position.y + player.size.y < platformTop)
+    {
+
+    }
 }
 
 void Player::update(float dt) {
     float dir = 0.f;
+    prevBottom_ = shape_.getGlobalBounds().position.y + shape_.getGlobalBounds().size.y;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
     {
         dir -= 1.f;
