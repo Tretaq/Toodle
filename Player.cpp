@@ -16,13 +16,11 @@ bool Player::isLandingOn(const sf::FloatRect &platform) const {
     sf::FloatRect player = shape_.getGlobalBounds();
     float currFeet = player.position.y + player.size.y;
     float platformTop = platform.position.y;
-    if (player.position.y + player.size.y > platformTop)
-    {
-
-    } else if (player.position.y + player.size.y < platformTop)
-    {
-
-    }
+    float playerLeft = player.position.x;
+    float playerRight = player.position.x + player.size.x;
+    float platformLeft =  platform.position.x;
+    float platformRight = platform.position.x + platform.size.x;
+    return prevBottom_ <= platformTop && currFeet >= platformTop && playerLeft < platformRight && playerRight >platformLeft;
 }
 
 void Player::update(float dt) {
