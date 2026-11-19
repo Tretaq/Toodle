@@ -10,7 +10,7 @@ int main() {
     Player player({220.f,400.f});
     sf::Clock clock;
     sf::Font font;
-    if (!font.openFromFile("./assets/GeistPixel-Regular-VariableFont_ELSH.ttf")) return 1;
+    if (!font.openFromFile("assets/GeistPixel-Regular-VariableFont_ELSH.ttf")) return 1;
     float startY = 400.f;
     float highestY = startY;
     float score = 0.f;

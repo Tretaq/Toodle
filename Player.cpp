@@ -1,11 +1,6 @@
 #include "Player.hpp"
-namespace {
-    constexpr float kGravity = 2000.f;
-    constexpr float kJumpSpeed = 1000.f;
-    constexpr float kMoveSpeed = 1000.f;
-    constexpr float kWindowWidth = 480.f;
 
-}
+#include "Constants.hpp"
 
 Player::Player(sf::Vector2f startPos) : shape_({40.f, 40.f}) {
     shape_.setFillColor(sf::Color::Green);
@@ -33,14 +28,14 @@ void Player::update(float dt) {
     {
         dir += 1.f;
     }
-    velocityY_ += kGravity * dt;
-    shape_.move({ dir * kMoveSpeed * dt, velocityY_ * dt });
+    velocityY_ += cfg::kGravity * dt;
+    shape_.move({ dir * cfg::kMoveSpeed * dt, velocityY_ * dt });
     sf::Vector2f pos = shape_.getPosition();
     float w = shape_.getSize().x;
-    if (pos.x > kWindowWidth){
+    if (pos.x > cfg::kWindowWidth){
         shape_.setPosition({-w , pos.y});
     } else if (pos.x + w < 0){
-        shape_.setPosition({kWindowWidth , pos.y});
+        shape_.setPosition({cfg::kWindowWidth , pos.y});
     }
 }
 
@@ -49,7 +44,7 @@ void Player::draw(sf::RenderTarget& target) const{
 }
 
 void Player::bounce(){
-    velocityY_ = -kJumpSpeed;
+    velocityY_ = -cfg::kJumpSpeed;
 }
 sf::FloatRect Player::getBounds() const{
     return shape_.getGlobalBounds();
