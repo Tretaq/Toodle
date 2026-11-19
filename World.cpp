@@ -30,14 +30,17 @@ const std::vector<Platform> &World::platforms() const {
 
 void World::removeBelow(float bottomY) {
     platforms_.erase(
-        std::remove_if(platforms().begin(), platforms().end()),
-
-        )
+        std::remove_if(platforms_.begin(), platforms_.end(),
+            [bottomY](const Platform& p) {
+               return p.getBounds().position.y > bottomY;
+            }),
+    platforms_.end());
 }
 
 void World::spawnPlatform() {
     std::uniform_real_distribution<float> gapDist(kMinGap,kMaxGap);
     std::uniform_real_distribution<float> xDist(0.f,cfg::kWindowWidth - kPlatformWidth);
     highestY_ -= gapDist(rng_);
-    platforms_.emplace_back(sf::Vector2f{xDist, highestY_},sf::Vector2f{kPlatformWidth,kPlatformHeight});
+    platforms_.emplace_back(sf::Vector2f{xDist(rng_), highestY_},sf::Vector2f{kPlatformWidth,kPlatformHeight});
+
 }
