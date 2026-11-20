@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 #include "Platform.hpp"
@@ -15,9 +16,7 @@ int main() {
     float startY = 400.f;
     float highestY = startY;
     float score = 0.f;
-    sf::Text scoreText(font,std::to_string(score),32);
-
-    float y =  480.f;
+    sf::Text scoreText(font,"0",32);
     World world;
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -43,7 +42,6 @@ int main() {
         if (view.getCenter().y != player.getBounds().position.y && view.getCenter().y > player.getBounds().position.y ) {
             view.setCenter({view.getCenter().x ,player.getBounds().position.y});
         }
-
         window.clear(sf::Color(30,30,40));
 
         window.setView(view);

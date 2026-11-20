@@ -16,7 +16,7 @@ World::World() : rng_(std::random_device{}()) {
 void World::update(const sf::View &view) {
     const float top = view.getCenter().y - view.getSize().y /2.f;
     const float bottom = view.getCenter().y + view.getSize().y / 2.f;
-    while (highestY_ < top) {
+    while (highestY_ > top - kSpawnMargin) {
         spawnPlatform();
     }
     removeBelow(bottom);
