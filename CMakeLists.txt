@@ -22,7 +22,9 @@ add_executable(Toodle main.cpp
         Constants.hpp
         World.hpp
         World.hpp
-        World.cpp)
+        World.cpp
+        MovingPlatform.cpp
+        MovingPlatform.hpp)
 
 target_link_libraries(Toodle PRIVATE SFML::Graphics SFML::Audio)
 

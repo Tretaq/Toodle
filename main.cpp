@@ -27,8 +27,8 @@ int main() {
         float dt = std::min(clock.restart().asSeconds(), 0.05f);
         player.update(dt);
         world.update(view);
-        for (const Platform& p : world.platforms()) {
-            if (player.isLandingOn(p.getBounds())) {
+        for (const auto& p : world.platforms()) {
+            if (player.isLandingOn(p->getBounds())) {
                 player.bounce();
             }
         }
