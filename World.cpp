@@ -16,16 +16,21 @@ World::World() : rng_(std::random_device{}()) {
 void World::update(const sf::View &view) {
     const float top = view.getCenter().y - view.getSize().y /2.f;
     const float bottom = view.getCenter().y + view.getSize().y / 2.f;
-
-
+    while (highestY_ < top) {
+        spawnPlatform();
+    }
+    removeBelow(bottom);
 }
 
 void World::draw(sf::RenderTarget &target) const {
-
+   for (const Platform& p : platforms_)
+   {
+       p.draw(target);
+   }
 }
 
 const std::vector<Platform> &World::platforms() const {
-
+    return platforms_;
 }
 
 void World::removeBelow(float bottomY) {

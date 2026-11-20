@@ -2,6 +2,7 @@
 
 #include "Platform.hpp"
 #include "Player.hpp"
+#include "World.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({480,800}), "Toodle");
@@ -15,12 +16,9 @@ int main() {
     float highestY = startY;
     float score = 0.f;
     sf::Text scoreText(font,std::to_string(score),32);
-    std::vector<Platform> platforms;
+
     float y =  480.f;
-    for (int i = 0 ; i < 40 ; i++) {
-        platforms.push_back({{160.f,y},{100.f,15.f}});
-        y -= 120.f;
-    }
+    World world;
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
@@ -29,7 +27,8 @@ int main() {
         }
         float dt = std::min(clock.restart().asSeconds(), 0.05f);
         player.update(dt);
-        for (const Platform& p : platforms) {
+        world.update(view);
+        for (const Platform& p : world.platforms()) {
             if (player.isLandingOn(p.getBounds())) {
                 player.bounce();
             }
@@ -45,15 +44,11 @@ int main() {
             view.setCenter({view.getCenter().x ,player.getBounds().position.y});
         }
 
-
-
         window.clear(sf::Color(30,30,40));
 
         window.setView(view);
         player.draw(window);
-        for (const Platform& p : platforms) {
-            p.draw(window);
-        }
+        world.draw(window);
         window.setView(window.getDefaultView());
         window.draw(scoreText);
         window.display();
