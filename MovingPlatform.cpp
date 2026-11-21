@@ -18,7 +18,7 @@ void MovingPlatform::update(float dt) {
     if (pos.x  < 0.f) {
         shape_.setPosition({0.f,pos.y});
         speed_ = std::abs(speed_);
-    } else if (pos.x + width > cfg::kWindowHeight) {
+    } else if (pos.x + width > cfg::kWindowWidth) {
         shape_.setPosition({cfg::kWindowWidth - width, pos.y});
         speed_ = -std::abs(speed_);
     }
