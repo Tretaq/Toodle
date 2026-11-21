@@ -16,7 +16,6 @@ sf::FloatRect Platform::getBounds() const
 }
 
 void Platform::update(float dt) {
-    if ()
 }
 
 bool Platform::isAlive() const {

@@ -16,7 +16,8 @@ World::World() : rng_(std::random_device{}()) {
     highestY_ = 780.f;
 }
 
-void World::update(const sf::View &view) {
+void World::update(const sf::View &view, float dt) {
+    for (auto& p : platforms_) p->update(dt);
     const float top = view.getCenter().y - view.getSize().y /2.f;
     const float bottom = view.getCenter().y + view.getSize().y / 2.f;
     while (highestY_ > top - kSpawnMargin) {
