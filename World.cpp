@@ -10,6 +10,9 @@ namespace {
     constexpr float kMinGap = 60.f;
     constexpr float kMaxGap = cfg::kJumpHight * 0.65f;
     constexpr float kSpawnMargin = 100.f;
+    constexpr float kMinMoveSpeed = 60.f;
+    constexpr float kMaxMoveSpeed = 160.f;
+    enum class Type {Normal, Moving};
 }
 World::World() : rng_(std::random_device{}()) {
     platforms_.push_back(std::make_unique<Platform>(sf::Vector2f{0.f,780.f},sf::Vector2f{cfg::kWindowWidth, kPlatformHeight}));
@@ -49,12 +52,21 @@ void World::removeBelow(float bottomY) {
 void World::spawnPlatform() {
     std::uniform_real_distribution<float> gapDist(kMinGap,kMaxGap);
     std::uniform_real_distribution<float> xDist(0.f,cfg::kWindowWidth - kPlatformWidth);
-    std::uniform_int_distribution<int> typeDist(0, 3);
+    std::uniform_real_distribution<float> speedDist(kMinMoveSpeed,kMaxMoveSpeed);
+    std::bernoulli_distribution coinFlip(0.5);
+    std::discrete_distribution<int> typeDist({80, 20});// each type has a weight (thats cooolllll)
     highestY_ -= gapDist(rng_);
     float x = xDist(rng_);
-    if (typeDist(rng_) == 0) {
-        platforms_.push_back(std::make_unique<MovingPlatform>(sf::Vector2f{x, highestY_},sf::Vector2f{kPlatformWidth, kPlatformHeight}));
-    } else {
-        platforms_.push_back(std::make_unique<Platform>(sf::Vector2f{x, highestY_},sf::Vector2f{kPlatformWidth,kPlatformHeight}));
+    const sf::Vector2f pos{x,highestY_};
+    const sf::Vector2f size{kPlatformWidth,kPlatformHeight};
+    switch (static_cast<Type>(typeDist(rng_))){
+    case Type::Moving:{
+            const float dir = coinFlip(rng_) ? 1.f : -1.f;
+            platforms_.push_back(std::make_unique<MovingPlatform>(pos,size,dir * speedDist(rng_)));
+            break;
+        }
+    case Type::Normal:
+    default:
+        platforms_.push_back(std::make_unique<Platform>(pos,size));
     }
 }

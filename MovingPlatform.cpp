@@ -6,7 +6,7 @@ namespace {
     constexpr float kSpeed = 100.f;
 }
 
-MovingPlatform::MovingPlatform(sf::Vector2f position, sf::Vector2f size): Platform(position,size), speed_(kSpeed) {
+MovingPlatform::MovingPlatform(sf::Vector2f position, sf::Vector2f size, float speed): Platform(position,size), speed_(speed) {
     shape_.setFillColor(sf::Color::Blue);
 }
 
