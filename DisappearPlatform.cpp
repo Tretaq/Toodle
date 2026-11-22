@@ -6,6 +6,5 @@ DisappearPlatform::DisappearPlatform(sf::Vector2f position, sf::Vector2f size): 
 
 bool DisappearPlatform::onLanded() {
   alive_ = false;
-  shape_.setFillColor(sf::Color(30,30,40));
   return true;
 }

@@ -46,8 +46,8 @@ void World::removeBelow(float bottomY) {
     platforms_.erase(
         std::remove_if(platforms_.begin(), platforms_.end(),
             [bottomY](const std::unique_ptr<Platform>& p) {
-               return p->getBounds().position.y > bottomY;
-            }),
+               return p->getBounds().position.y > bottomY || !p->isAlive();
+            } ),
     platforms_.end());
 }
 
@@ -56,7 +56,7 @@ void World::spawnPlatform() {
     std::uniform_real_distribution<float> xDist(0.f,cfg::kWindowWidth - kPlatformWidth);
     std::uniform_real_distribution<float> speedDist(kMinMoveSpeed,kMaxMoveSpeed);
     std::bernoulli_distribution coinFlip(0.5);
-    std::discrete_distribution<int> typeDist({60, 20, 10 ,10});// each type has a weight (thats cooolllll)
+    std::discrete_distribution<int> typeDist({40, 20, 10 ,10});// each type has a weight (thats cooolllll)
     highestY_ -= gapDist(rng_);
     float x = xDist(rng_);
     const sf::Vector2f pos{x,highestY_};
