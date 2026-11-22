@@ -2,17 +2,19 @@
 #include "Constants.hpp"
 #include <algorithm>
 
+#include "BreakPlatform.hpp"
+#include "DisappearPlatform.hpp"
 #include "MovingPlatform.hpp"
 
 namespace {
     constexpr float kPlatformWidth = 80.f;
     constexpr float kPlatformHeight = 15.f;
     constexpr float kMinGap = 60.f;
-    constexpr float kMaxGap = cfg::kJumpHight * 0.65f;
+    constexpr float kMaxGap = cfg::kJumpHight * 0.65f / 2;
     constexpr float kSpawnMargin = 100.f;
     constexpr float kMinMoveSpeed = 60.f;
     constexpr float kMaxMoveSpeed = 160.f;
-    enum class Type {Normal, Moving};
+    enum class Type {Normal, Moving, Breakable, Dissapear};
 }
 World::World() : rng_(std::random_device{}()) {
     platforms_.push_back(std::make_unique<Platform>(sf::Vector2f{0.f,780.f},sf::Vector2f{cfg::kWindowWidth, kPlatformHeight}));
@@ -54,7 +56,7 @@ void World::spawnPlatform() {
     std::uniform_real_distribution<float> xDist(0.f,cfg::kWindowWidth - kPlatformWidth);
     std::uniform_real_distribution<float> speedDist(kMinMoveSpeed,kMaxMoveSpeed);
     std::bernoulli_distribution coinFlip(0.5);
-    std::discrete_distribution<int> typeDist({80, 20});// each type has a weight (thats cooolllll)
+    std::discrete_distribution<int> typeDist({60, 20, 10 ,10});// each type has a weight (thats cooolllll)
     highestY_ -= gapDist(rng_);
     float x = xDist(rng_);
     const sf::Vector2f pos{x,highestY_};
@@ -63,6 +65,14 @@ void World::spawnPlatform() {
     case Type::Moving:{
             const float dir = coinFlip(rng_) ? 1.f : -1.f;
             platforms_.push_back(std::make_unique<MovingPlatform>(pos,size,dir * speedDist(rng_)));
+            break;
+        }
+        case Type::Breakable:{
+            platforms_.push_back(std::make_unique<BreakPlatform>(pos,size));
+            break;
+        }
+        case Type::Dissapear: {
+            platforms_.push_back(std::make_unique<DisappearPlatform>(pos,size));
             break;
         }
     case Type::Normal:

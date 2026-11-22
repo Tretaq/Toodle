@@ -28,7 +28,8 @@ int main() {
         player.update(dt);
         world.update(view,dt);
         for (const auto& p : world.platforms()) {
-            if (player.isLandingOn(p->getBounds())) {
+            if (!p->isAlive()) continue;
+            if (player.isLandingOn(p->getBounds()) && p->onLanded()) {
                 player.bounce();
             }
         }
@@ -45,8 +46,8 @@ int main() {
         window.clear(sf::Color(30,30,40));
 
         window.setView(view);
-        player.draw(window);
         world.draw(window);
+        player.draw(window);
         window.setView(window.getDefaultView());
         window.draw(scoreText);
         window.display();
