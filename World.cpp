@@ -5,6 +5,7 @@
 #include "BreakPlatform.hpp"
 #include "DisappearPlatform.hpp"
 #include "MovingPlatform.hpp"
+#include "SpringPlatforms.hpp"
 
 namespace {
     constexpr float kPlatformWidth = 80.f;
@@ -14,7 +15,7 @@ namespace {
     constexpr float kSpawnMargin = 100.f;
     constexpr float kMinMoveSpeed = 60.f;
     constexpr float kMaxMoveSpeed = 160.f;
-    enum class Type {Normal, Moving, Breakable, Dissapear};
+    enum class Type {Normal, Moving, Breakable, Dissapear, Spring};
 }
 World::World() : rng_(std::random_device{}()) {
     platforms_.push_back(std::make_unique<Platform>(sf::Vector2f{0.f,780.f},sf::Vector2f{cfg::kWindowWidth, kPlatformHeight}));
@@ -56,7 +57,7 @@ void World::spawnPlatform() {
     std::uniform_real_distribution<float> xDist(0.f,cfg::kWindowWidth - kPlatformWidth);
     std::uniform_real_distribution<float> speedDist(kMinMoveSpeed,kMaxMoveSpeed);
     std::bernoulli_distribution coinFlip(0.5);
-    std::discrete_distribution<int> typeDist({40, 20, 10 ,10});// each type has a weight (thats cooolllll)
+    std::discrete_distribution<int> typeDist({40, 20, 10 ,10, 5});// each type has a weight (thats cooolllll)
     highestY_ -= gapDist(rng_);
     float x = xDist(rng_);
     const sf::Vector2f pos{x,highestY_};
@@ -73,6 +74,10 @@ void World::spawnPlatform() {
         }
         case Type::Dissapear: {
             platforms_.push_back(std::make_unique<DisappearPlatform>(pos,size));
+            break;
+        }
+        case Type::Spring: {
+            platforms_.push_back(std::make_unique<SpringPlatform>(pos,size));
             break;
         }
     case Type::Normal:

@@ -43,8 +43,8 @@ void Player::draw(sf::RenderTarget& target) const{
     target.draw(shape_);
 }
 
-void Player::bounce(){
-    velocityY_ = -cfg::kJumpSpeed;
+void Player::bounce(float multiplayer){
+    velocityY_ = -cfg::kJumpSpeed * multiplayer;
 }
 sf::FloatRect Player::getBounds() const{
     return shape_.getGlobalBounds();

@@ -63,7 +63,7 @@ int main() {
             for (const auto& p : world.platforms()) {
                 if (!p->isAlive()) continue;
                 if (player.isLandingOn(p->getBounds()) && p->onLanded()) {
-                    player.bounce();
+                    player.bounce(p->bounceStrength());
                 }
             }
             const sf::FloatRect b = player.getBounds();

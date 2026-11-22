@@ -7,7 +7,7 @@ public:
 
      void update(float dt);
      void draw(sf::RenderTarget& target) const;
-     void bounce();
+     void bounce(float multiplayer = 1.f);
      sf::FloatRect getBounds() const;
      float getVelocityY() const;
     bool isLandingOn(const sf::FloatRect& platform) const;

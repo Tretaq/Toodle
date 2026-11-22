@@ -20,3 +20,7 @@ void Platform::update(float dt) {}
 bool Platform::isAlive() const {
     return alive_;
 }
+
+float Platform::bounceStrength() const {
+    return 1.f;
+}
