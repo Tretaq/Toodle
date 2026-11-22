@@ -15,8 +15,7 @@ sf::FloatRect Platform::getBounds() const
     return shape_.getGlobalBounds();
 }
 
-void Platform::update(float dt) {
-}
+void Platform::update(float dt) {}
 
 bool Platform::isAlive() const {
     return alive_;
