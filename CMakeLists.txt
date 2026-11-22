@@ -24,7 +24,9 @@ add_executable(Toodle main.cpp
         World.hpp
         World.cpp
         MovingPlatform.cpp
-        MovingPlatform.hpp)
+        MovingPlatform.hpp
+        BreakPlatform.cpp
+        BreakPlatform.hpp)
 
 target_link_libraries(Toodle PRIVATE SFML::Graphics SFML::Audio)
 
