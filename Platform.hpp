@@ -11,10 +11,6 @@ public:
     virtual float bounceStrength() const;
     sf::FloatRect getBounds() const;
     bool isAlive() const;
-
-
-
-
 protected:
     sf::RectangleShape shape_;
     bool alive_ = true;

@@ -3,16 +3,23 @@
 #include <SFML/Graphics.hpp>
 #include "Platform.hpp"
 #include <memory>
+
+#include "Pickup.hpp"
+
+class Player;
+
 class World {
 public:
     World();
     void update(const sf::View& view, float dt);
     void draw(sf::RenderTarget& target) const;
     const std::vector<std::unique_ptr<Platform>>& platforms() const;
+    void collectPickups(Player& player);
 private:
     void spawnPlatform();
     void removeBelow(float bottomY);
     std::vector<std::unique_ptr<Platform>> platforms_;
     std::mt19937 rng_;
     float highestY_;
+    std::vector<Pickup> pickups_;
 };

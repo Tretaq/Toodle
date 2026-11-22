@@ -8,6 +8,7 @@ Player::Player(sf::Vector2f startPos) : shape_({40.f, 40.f}) {
 }
 
 bool Player::isLandingOn(const sf::FloatRect &platform) const {
+    if (state_ == State::Jetpack) return false;
     sf::FloatRect player = shape_.getGlobalBounds();
     float currFeet = player.position.y + player.size.y;
     float platformTop = platform.position.y;
@@ -27,8 +28,16 @@ void Player::update(float dt) {
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
     {
         dir += 1.f;
+    }if (state_ == State::Jetpack) {
+        velocityY_ = -cfg::kJetpackSpeed;
+        jetpackTimer_ -= dt;
+        if (jetpackTimer_ <= 0.f) {
+            state_ = State::Normal;
+            shape_.setFillColor(sf::Color::Green);
+        }
+    } else {
+        velocityY_ += cfg::kGravity * dt;
     }
-    velocityY_ += cfg::kGravity * dt;
     shape_.move({ dir * cfg::kMoveSpeed * dt, velocityY_ * dt });
     sf::Vector2f pos = shape_.getPosition();
     float w = shape_.getSize().x;
@@ -41,6 +50,16 @@ void Player::update(float dt) {
 
 void Player::draw(sf::RenderTarget& target) const{
     target.draw(shape_);
+}
+
+void Player::activeJetpack() {
+    state_ = State::Jetpack;
+    jetpackTimer_ = cfg::kJetpackDuration;
+    shape_.setFillColor(sf::Color(255,140,0));
+}
+
+bool Player::isJetpacking() const {
+    return state_ == State::Jetpack;
 }
 
 void Player::bounce(float multiplayer){

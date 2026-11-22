@@ -66,6 +66,7 @@ int main() {
                     player.bounce(p->bounceStrength());
                 }
             }
+            world.collectPickups(player);
             const sf::FloatRect b = player.getBounds();
             float currentY = b.position.y;
             if (currentY < highestY) {

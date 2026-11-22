@@ -30,7 +30,10 @@ add_executable(Toodle main.cpp
         DisappearPlatform.cpp
         DisappearPlatform.hpp
         SpringPlatforms.cpp
-        SpringPlatforms.hpp)
+        SpringPlatforms.hpp
+        Pickup.cpp
+        Pickup.hpp
+)
 
 target_link_libraries(Toodle PRIVATE SFML::Graphics SFML::Audio)
 

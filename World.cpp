@@ -1,7 +1,8 @@
 #include "World.hpp"
 #include "Constants.hpp"
 #include <algorithm>
-
+#include "Player.hpp"
+#include "Pickup.hpp"
 #include "BreakPlatform.hpp"
 #include "DisappearPlatform.hpp"
 #include "MovingPlatform.hpp"
@@ -37,6 +38,9 @@ void World::draw(sf::RenderTarget &target) const {
    {
        p->draw(target);
    }
+    for (const Pickup& p: pickups_) {
+        p.draw(target);
+    }
 }
 
 const std::vector<std::unique_ptr<Platform>> &World::platforms() const {
@@ -50,6 +54,21 @@ void World::removeBelow(float bottomY) {
                return p->getBounds().position.y > bottomY || !p->isAlive();
             } ),
     platforms_.end());
+    pickups_.erase(
+    std::remove_if(pickups_.begin(), pickups_.end(),
+        [bottomY](const Pickup& p) {
+            return p.isCollected() || p.getBounds().position.y > bottomY;
+        }),
+    pickups_.end());
+}
+
+void World::collectPickups(Player &player) {
+    for (Pickup& p : pickups_) {
+        if (!p.isCollected() && p.getBounds().findIntersection(player.getBounds())) {
+            p.collect();
+            player.activeJetpack();
+        }
+    }
 }
 
 void World::spawnPlatform() {
@@ -58,6 +77,7 @@ void World::spawnPlatform() {
     std::uniform_real_distribution<float> speedDist(kMinMoveSpeed,kMaxMoveSpeed);
     std::bernoulli_distribution coinFlip(0.5);
     std::discrete_distribution<int> typeDist({40, 20, 10 ,10, 5});// each type has a weight (thats cooolllll)
+    std::bernoulli_distribution jetpackChance(0.05);
     highestY_ -= gapDist(rng_);
     float x = xDist(rng_);
     const sf::Vector2f pos{x,highestY_};
@@ -83,5 +103,8 @@ void World::spawnPlatform() {
     case Type::Normal:
     default:
         platforms_.push_back(std::make_unique<Platform>(pos,size));
+            if (jetpackChance(rng_)) {
+                pickups_.emplace_back(sf::Vector2f{pos.x + kPlatformWidth / 2.f - 12.f , pos.y - 30.f});
+            }
     }
 }
