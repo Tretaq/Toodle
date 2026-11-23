@@ -6,12 +6,13 @@ Written for Terra <3 Theme: Peak(couse u know u reach the peak in this)
 
 ## Features 
 
-- Endless generated platforms
+- Endless generated platforms, with spacing made from players jump 
 - Four platform types: normal, moving, breakable, and disappearing
-- Spring  platform
-- Jetpack pickup 
-- Scrolling camera
+- Spring  platform for a boost in jump. 
+- Jetpack pickup that lest yuou fly through everythoing for a few seconds.
+- Scrolling camera 
 - Score by height, game over screen, and a high score save
+- death by getting out of vievs reach
 
 ## Controls
 
@@ -20,6 +21,8 @@ Written for Terra <3 Theme: Peak(couse u know u reach the peak in this)
 | `A` / `Left Arrow` | Move left |
 | `D` / `Right Arrow` | Move right |
 | `Space` | Restart after game over |
+
+Players wraps around edges and jump automaticly.
 
 ## Building
 
@@ -39,9 +42,10 @@ cmake --build build
 cd build
 ./Toodle
 ```
+Run th game from the folder that contains the exec. Cmake copies assets
 ## To do 
-- Graphics 
-- Enemies 
+- Graphics well theres no graphics since this project took me so much time that i spend debugging 
+- Enemies same reason if only i had more time... 
 - Sound
 
 # Credit
